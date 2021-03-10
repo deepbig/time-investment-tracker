@@ -1,17 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+import RootReducers, { rootSaga } from './modules';
 import reportWebVitals from './reportWebVitals';
+import { check } from './modules/auth';
+import App from './App';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const DEV_MODE = true;
+const sagaMiddleware = createSagaMiddleware();
+
+const DevTool = DEV_MODE ? composeWithDevTools(applyMiddleware(sagaMiddleware)) : applyMiddleware(sagaMiddleware)
+
+const store = createStore(
+  RootReducers,
+  DevTool
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+function loadAuth() {
+  try {
+    store.dispatch(check());
+  } catch (e) {
+    console.error('Check function is not working');
+  }
+}
+
+sagaMiddleware.run(rootSaga);
+loadAuth();
+
+ReactDOM.render((
+  <Provider store={store}>
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+  </Provider>
+), document.getElementById('root'));
+
 reportWebVitals();
