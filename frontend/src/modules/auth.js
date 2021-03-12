@@ -89,7 +89,6 @@ const initialState = {
   user: null,
   checkError: null,
   passwordResult: null,
-  open_form: false,
   open_password: false,
 };
 
@@ -99,10 +98,7 @@ const auth = handleActions(
       produce(state, draft => {
         draft[form][key] = value; // 예: state.register.username을 바꾼다
       }),
-    [OPEN_FORM]: (state, { payload: open_form }) => ({
-      ...state,
-      open_form: open_form
-    }),
+
     [OPEN_PASSWORD]: (state, { payload: open_password }) => ({
       ...state,
       open_password: open_password

@@ -56,7 +56,7 @@ const LoginForm = () => {
           Alert(1, "Your password is not secured. Please update your password.", "I will change it later.", "Change Password Now", openPasswordForm);
         }
         dispatch(initializeForm('login'));
-        navigate('/app/main');
+        navigate('/app/dashboard');
       }
     } catch (err) {
       setError("Login was failed due to the internal server error.");
