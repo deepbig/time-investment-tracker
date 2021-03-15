@@ -1,6 +1,7 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.entity;
 
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.type.RoleType;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -10,45 +11,33 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username")
-    })
+@Table(name = "posting")
+@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @Data
-public class User {
-
+public class Posting {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
-  @Column(name = "username", length = 100, unique = true, nullable = false)
-  private String username;
+  @Column(name = "content")
+  private String content;
 
-  @Column(name = "password", nullable = false)
-  private String password;
+  @Column(name = "category_name")
+  private String categoryName;
 
-  @OneToMany(mappedBy = "user")
-  private Set<Category> categories = new HashSet<>();
-
-  @ElementCollection(fetch = FetchType.EAGER)
-  @Column(name = "roles")
-  private Set<RoleType> roles = new HashSet<>();
-
-  @Column(name = "token")
-  private String adminToken;
-
-  public User(String username, String password) {
-    this.username = username;
-    this.password = password;
-  }
+  @Column(name = "date_added")
+  private Timestamp dateAdded;
 
 }

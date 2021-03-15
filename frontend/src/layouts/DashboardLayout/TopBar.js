@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(1),
   },
+  navButton: {
+
+  },
   title: {
     flexGrow: 1,
   },
@@ -80,10 +83,10 @@ const TopBar = () => {
     >
       <List>
         {['DASHBOARD', 'REPORTS'].map((text) => (
-          <RouterLink to={{pathname: `/app/${text.toLowerCase()}`}} key={text} style={{ textDecoration: 'none' }}>
-          <ListItem button key={text}>
-            <ListItemText primary={text} color="primary" />
-          </ListItem>
+          <RouterLink to={{ pathname: `/app/${text.toLowerCase()}` }} key={text} style={{ textDecoration: 'none' }}>
+            <ListItem button key={text}>
+              <ListItemText primary={text} color="primary" />
+            </ListItem>
           </RouterLink>
         ))}
       </List>
@@ -95,7 +98,7 @@ const TopBar = () => {
       className={classes.root}
     >
       <Toolbar>
-        {!matches ?
+        {/* {!matches ?
           <>
             <React.Fragment key="menu_button">
               <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={toggleDrawer(true)}>
@@ -111,23 +114,23 @@ const TopBar = () => {
           location.pathname.includes("reports") ? "Reports" : ""} 
         </Typography>
         </>
-        : 
+        :  */}
         <>
-        <RouterLink to="/" >
-        <Logo className={classes.menuButton} />
-      </RouterLink>
-      <RouterLink to="/app/dashboard">
-      <Button variant="contained" color="primary">
-        Dashboard
+          <RouterLink to="/" >
+            <Logo className={classes.menuButton} />
+          </RouterLink>
+          {/* <RouterLink to="/app/dashboard">
+            <Button variant="contained" color="primary">
+              Dashboard
       </Button>
-    </RouterLink>
-    <RouterLink to="/app/reports">
-      <Button variant="contained" color="primary">
-        Reports
+          </RouterLink>
+          <RouterLink to="/app/reports">
+            <Button variant="contained" color="primary">
+              Reports
       </Button>
-    </RouterLink>
-    </>
-        }
+          </RouterLink> */}
+        </>
+        {/* } */}
         <Typography variant="h5" className={classes.title}>
         </Typography>
         <IconButton color="inherit" onClick={handleLogout}>

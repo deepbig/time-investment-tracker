@@ -1,5 +1,6 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.security;
 
+import com.hryu.timeinvestmenttracker.timeinvestmenttracker.Constants;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -64,23 +65,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .httpBasic().disable()
         .cors().and().csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+//        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+//        .and()
+//        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        .and()
         .authorizeRequests()
         .antMatchers("/auth/**").permitAll()
         .antMatchers("/**/*.{js,html,css}").permitAll()
+        .antMatchers(HttpMethod.GET).hasRole("USER")
+        .antMatchers(HttpMethod.POST).hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT).hasRole("ADMIN")
+        .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
         .anyRequest().authenticated(); //그 외 나머지 요청은 모두 인증된 회원만 접근 가능
+//
     http.addFilterBefore(authenticationJwtTokenFilter(),
         UsernamePasswordAuthenticationFilter.class);
   }
 
   @Bean
   CorsConfigurationSource corsConfigurationSource() {
+    if (Constants.DEV_MODE) {
+      CorsConfiguration configuration = new CorsConfiguration();
+      configuration.setAllowedOrigins(Arrays.asList("*"));
+      configuration.setAllowedMethods(Arrays.asList("*"));
+      configuration.setAllowedHeaders(Arrays.asList("*"));
+      configuration.setAllowCredentials(true);
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-      source.registerCorsConfiguration("http://localhost:12312",
+      source.registerCorsConfiguration("/**", configuration);
+
+      return source;
+    } else {
+      UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+      source.registerCorsConfiguration("http://localhost:8083",
           new CorsConfiguration().applyPermitDefaultValues());
       return source;
+    }
   }
 }

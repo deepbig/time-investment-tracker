@@ -10,8 +10,12 @@ public class LoginResultDto {
   @JsonProperty(value = "username")
   private String username;
 
-  public LoginResultDto(String username) {
+  @JsonProperty(value= "roles")
+  private List<String> roles;
+
+  public LoginResultDto(String username, List<String> roles) {
     this.username = username;
+    this.roles = roles;
   }
 
 }

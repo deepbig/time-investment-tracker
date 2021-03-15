@@ -2,6 +2,7 @@ package com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.security;
 
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.entity.User;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.repository.UserRepository;
+import com.hryu.timeinvestmenttracker.timeinvestmenttracker.error.CEmailSigninFailedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -102,10 +103,48 @@ public class JwtTokenProvider {
     return false;
   }
 
+  public boolean checkAdminToken(HttpServletRequest request) {
+    try {
+      Cookie cookie = WebUtils.getCookie(request, "admin_token");
+      if (cookie == null) {
+        return false;
+      }
+      String token = cookie.getValue();
+      //1.Check Token validation
+//      Claims claims =
+      Jwts.parser()
+          .setSigningKey(secretKey)
+          .parseClaimsJws(token)
+          .getBody();
+      //2.Check user table token
+      User user = userRepository.findByUsername(getUsernameFromToken(token))
+          .orElseThrow(CEmailSigninFailedException::new);
+      return token.equals(user.getAdminToken());
+
+    } catch (SignatureException e) {
+      logger.error("Invalid JWT signature: {}", e);
+    } catch (MalformedJwtException e) {
+      logger.error("Invalid JWT token: {}", e);
+    } catch (ExpiredJwtException e) {
+      logger.error("JWT token is expired: {}", e);
+    } catch (UnsupportedJwtException e) {
+      logger.error("JWT token is unsupported: {}", e);
+    } catch (IllegalArgumentException e) {
+      logger.error("JWT claims string is empty: {}", e);
+    }
+    return false;
+  }
+
   public String getUsernameFromToken(String token) {
     String username = (String) Jwts.parser().setSigningKey(secretKey)
         .parseClaimsJws(token).getBody().get("USER_NAME_KEY");
     return username;
+  }
+
+  public List<String> getUserRoleFromToken(String token) {
+    List<String> userRole = Jwts.parser().setSigningKey(secretKey)
+        .parseClaimsJws(token).getBody().get("USER_ROLE_KEY", List.class);
+    return userRole;
   }
 
 }

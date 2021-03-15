@@ -28,18 +28,25 @@ public class UserDetailsImpl implements UserDetails {
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String username, String password) {
+  public UserDetailsImpl(Long id, String username, String password,
+      Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.username = username;
     this.password = password;
+    this.authorities = authorities;
   }
 
   public static UserDetailsImpl build(User user) {
+    //This convert Set<Role> into List<GrantedAuthority> for the Authentication object.
+    List<GrantedAuthority> authorities = user.getRoles().stream()
+        .map(role -> new SimpleGrantedAuthority(role.name()))
+        .collect(Collectors.toList());
 
     return new UserDetailsImpl(
         user.getId(),
         user.getUsername(),
-        user.getPassword());
+        user.getPassword(),
+        authorities);
   }
 
   //Class 'UserDetailsImpl' must either implement abstract method 'isAccountNonExpired()' in 'UserDetails'

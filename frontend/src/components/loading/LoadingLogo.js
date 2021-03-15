@@ -25,14 +25,11 @@ const LoadingLogo = () => {
 
   return (
     start === true ?
-    <Backdrop className={classes.backdrop}>
     <div class="fullScreen">
       <div class="dimScreen">
         <img src="/LoadingLogo.gif" alt="Logo" class="center" />
       </div>
     </div>
-
-    </Backdrop>
       : null
   )
 };

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DashboardForm = () => {
+const Postings = () => {
   const classes = useStyles();
 
   return (
@@ -30,6 +30,7 @@ const DashboardForm = () => {
           gutterBottom
           variant="h4"
         >
+        
           TEST TEXT
         </Typography>
         <Box
@@ -53,4 +54,4 @@ const DashboardForm = () => {
   );
 };
 
-export default DashboardForm;
+export default Postings;

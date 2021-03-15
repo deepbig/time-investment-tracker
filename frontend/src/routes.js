@@ -3,15 +3,19 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from './layouts/DashboardLayout';
 import MainLayout from './layouts/MainLayout';
 import DashboardPage from './pages/DashboardPage';
+import PostingPage from './pages/PostingPage';
 import NotFoundPage from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
+import MainPage from './pages/MainPage';
 
 const routes = [
   {
     path: 'app',
     element: <DashboardLayout />,
     children: [
+      { path: '/main', element: <MainPage />},
       { path: '/dashboard', element: <DashboardPage /> },
+      { path: '/posting', element: <PostingPage /> },
       // { path: '/tasks/:task_id/:task_name', element: <MetricsPage /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

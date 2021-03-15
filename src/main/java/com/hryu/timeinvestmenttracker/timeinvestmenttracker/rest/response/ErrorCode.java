@@ -41,6 +41,8 @@ public enum ErrorCode {
       "Fail to update your password because your current password is not correct."),
   FAIL_USER_UPDATE_BY_USER_NOT_EXISTS(false, -11009,
       "Fail to update your password because your username is not exists."),
+  FAIL_USER_SIGNIN_BY_USER_NOT_EXISTS(false, -11003,
+      "Fail to get user information because your username is not exists."),
   ;
 
   @Getter
