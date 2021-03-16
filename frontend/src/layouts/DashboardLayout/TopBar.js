@@ -120,14 +120,14 @@ const TopBar = () => {
             <Logo className={classes.menuButton} />
           </RouterLink>
           {/* <RouterLink to="/app/dashboard">
-            <Button variant="contained" color="primary">
+            <Button variant="contained" size="large" color="primary">
               Dashboard
-      </Button>
+            </Button>
           </RouterLink>
           <RouterLink to="/app/reports">
-            <Button variant="contained" color="primary">
+            <Button color="primary">
               Reports
-      </Button>
+            </Button>
           </RouterLink> */}
         </>
         {/* } */}

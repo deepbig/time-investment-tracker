@@ -30,7 +30,8 @@ const DashboardPage = () => {
         height="100%"
         justifyContent="center"
       >
-        <Container maxWidth="lg">
+        {/* <Container maxWidth="lg"> */}
+        <Container maxWidth={false}>
           <DashboardForm />
         </Container>
       </Box>
