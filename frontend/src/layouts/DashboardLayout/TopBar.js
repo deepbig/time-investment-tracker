@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
   list_item_icon: {
     minWidth: '36px'
+  },
+  tooBar: {
+    height: 52
   }
 }));
 
@@ -82,7 +85,7 @@ const TopBar = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['DASHBOARD', 'REPORTS'].map((text) => (
+        {['DASHBOARD', 'ACTIVITY', 'RESULT'].map((text) => (
           <RouterLink to={{ pathname: `/app/${text.toLowerCase()}` }} key={text} style={{ textDecoration: 'none' }}>
             <ListItem button key={text}>
               <ListItemText primary={text} color="primary" />
@@ -97,8 +100,8 @@ const TopBar = () => {
     <AppBar
       className={classes.root}
     >
-      <Toolbar>
-        {/* {!matches ?
+      <Toolbar classNAme={classes.tooBar}>
+        {!matches ?
           <>
             <React.Fragment key="menu_button">
               <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={toggleDrawer(true)}>
@@ -109,28 +112,34 @@ const TopBar = () => {
               </Drawer>
             </React.Fragment>
 
-          <Typography variant="h5" className={classes.title}>
-          {location.pathname.includes("dashboard") ? "Dashboard" : 
-          location.pathname.includes("reports") ? "Reports" : ""} 
-        </Typography>
-        </>
-        :  */}
-        <>
-          <RouterLink to="/" >
-            <Logo className={classes.menuButton} />
-          </RouterLink>
-          {/* <RouterLink to="/app/dashboard">
-            <Button variant="contained" size="large" color="primary">
-              Dashboard
+            <Typography variant="h5" className={classes.title}>
+              {location.pathname.includes("dashboard") ? "Dashboard" :
+                location.pathname.includes("activity") ? "Activity" : 
+                location.pathname.includes("result") ? "Result" : ""}
+            </Typography>
+          </>
+          :
+          <>
+            <RouterLink to="/" >
+              <Logo className={classes.menuButton} />
+            </RouterLink>
+            <RouterLink to="/app/dashboard">
+              <Button variant="contained" size="large" color="primary">
+                Dashboard
             </Button>
-          </RouterLink>
-          <RouterLink to="/app/reports">
-            <Button color="primary">
-              Reports
+            </RouterLink>
+            <RouterLink to="/app/activity">
+              <Button variant="contained" size="large" color="primary">
+                Activity
             </Button>
-          </RouterLink> */}
-        </>
-        {/* } */}
+            </RouterLink>
+            <RouterLink to="/app/result">
+              <Button variant="contained" size="large" color="primary">
+                Result
+            </Button>
+            </RouterLink>
+          </>
+        }
         <Typography variant="h5" className={classes.title}>
         </Typography>
         <IconButton color="inherit" onClick={handleLogout}>

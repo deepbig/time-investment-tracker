@@ -12,7 +12,7 @@ import Logo from '../../components/styles/Logo';
 const useStyles = makeStyles(({
   root: {},
   toolbar: {
-    height: 64
+    height: 52
   }
 }));
 

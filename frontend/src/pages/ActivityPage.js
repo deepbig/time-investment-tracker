@@ -5,7 +5,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from '../components/styles/Page';
-// import DashboardForm from '../components/dashboard/DashboardForm';
+import Activity from '../components/activity/Activity';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const MainPage = () => {
+const ActivityPage = () => {
   const classes = useStyles();
   
   return (
     <Page
       className={classes.root}
-      title="Main"
+      title="Activity"
     >
       <Box
         display="flex"
@@ -30,12 +30,13 @@ const MainPage = () => {
         height="100%"
         justifyContent="center"
       >
-        <Container maxWidth="lg">
-          {/* <DashboardForm /> */}
+        {/* <Container maxWidth="lg"> */}
+        <Container maxWidth={false}>
+          <Activity />
         </Container>
       </Box>
     </Page>
   );
 };
 
-export default MainPage;
+export default ActivityPage;
