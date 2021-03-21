@@ -1,72 +1,65 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.controller;
 
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.Constants;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.error.ServerException;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.ActivityPostDto;
+import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryDto;
+import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryListDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.PostingListDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.CommonResult;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.ErrorCode;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.SingleResult;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.service.PostingService;
+import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.service.CategoryService;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.service.ResponseService;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.type.PostingType;
 import io.swagger.annotations.Api;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api(value = "posting")
-public class PostingController {
+public class CategoryController {
 
   private final ResponseService responseService;
-  private final PostingService postingService;
+  private final CategoryService categoryService;
 
   @Autowired
-  public PostingController(ResponseService responseService, PostingService postingService) {
+  public CategoryController(ResponseService responseService, CategoryService categoryService) {
     this.responseService = responseService;
-    this.postingService = postingService;
+    this.categoryService = categoryService;
   }
 
-  @RequestMapping(value = "/posting/{type}", method = RequestMethod.GET)
+  @RequestMapping(value = "/category", method = RequestMethod.GET)
   @ResponseStatus(value = HttpStatus.OK)
-  public SingleResult<PostingListDto> getPostingList(HttpServletRequest request,
-      @PathVariable("type") PostingType type,
-      @RequestParam("offset") int offset,
-      @RequestParam("limit") int limit) throws ServerException {
+  public SingleResult<CategoryListDto> getList(HttpServletRequest request) throws ServerException {
 //    if (!Constants.DEV_MODE && !jwtTokenProvider.checkAdminToken(request)) {
 //      throw new ServerException(ErrorCode.FAIL_ADMIN_USER_CHECK_BY_INVALID_TOKEN);
 //    }
 
-    if (type == PostingType.ACTIVITY_TYPE) {
-      return responseService.getSingleResult(postingService.listActivity(offset, limit));
-    } else if (type == PostingType.RESULT_TYPE) {
-      return responseService.getSingleResult(postingService.listActivity(offset, limit));
-    } else {
-      throw new ServerException(ErrorCode.FAIL_GETTING_POSTS_BY_TYPE_NOT_EXISTS);
-    }
+    return responseService.getSingleResult(
+        categoryService.list()); // need to add user_id if your logged in.
   }
 
-  @RequestMapping(value = "/posting/activity/create", method = RequestMethod.POST)
+  @RequestMapping(value = "/category", method = RequestMethod.POST)
   @ResponseStatus(value = HttpStatus.OK)
-  public CommonResult createPosting(
+  public CommonResult create(
       HttpServletRequest request,
-      @RequestBody ActivityPostDto dto)
+      @RequestBody CategoryDto dto)
       throws ServerException {
 
     try {
 
-      postingService.createActivityPosting(dto);
+      categoryService.createCategory(dto);
       return CommonResult.SUCCESS_RESPONSE;
 
-    } catch (ServerException e) { throw e; }
+    } catch (ServerException e) {
+      throw e;
+    }
   }
 
 }

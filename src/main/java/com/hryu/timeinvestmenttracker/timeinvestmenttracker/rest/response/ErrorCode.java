@@ -22,6 +22,11 @@ public enum ErrorCode {
   FAIL_AUTH_USER_NOT_EXIST(false, -506, "User not exists"),
   FAIL_AUTH_TOKEN_ALREADY_REFRESHED(false, -507, "Token already changed by another session."),
 
+  FAIL_GETTING_POSTS_BY_TYPE_NOT_EXISTS(false, -601, "Posting type does not exist."),
+  FAIL_CREATING_POST_BY_CATEGORY_NOT_EXISTS(false, -602, "The category of your post does not exist."),
+
+  FAIL_CREATING_CATEGORY_BY_NAME_ALREADY_EXIST(false, -701, "The category name already exist."),
+
   //에러 코드 변경 시 프론트에 반영해야 함.
   FAIL_USER_SIGNIN_BY_EMPTY_BODY(false, -11001,
       "Fail to sign you in because you did not type your username/password."),

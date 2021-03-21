@@ -8,4 +8,5 @@ public class NewPasswordDto {
 
   @JsonProperty(value = "update", required = true)
   private String update;
+
 }

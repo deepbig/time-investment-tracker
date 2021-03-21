@@ -1,22 +1,14 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.entity;
 
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.type.RoleType;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Posting {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -37,7 +30,7 @@ public class Posting {
   @Column(name = "category_name")
   private String categoryName;
 
-  @Column(name = "date_added")
+  @Column(name = "date_added", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private Timestamp dateAdded;
 
 }
