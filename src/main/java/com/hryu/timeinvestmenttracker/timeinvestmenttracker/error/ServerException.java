@@ -1,6 +1,6 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.error;
 
-import  com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.ErrorCode;
+import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.ErrorCode;
 import lombok.Getter;
 import lombok.NonNull;
 

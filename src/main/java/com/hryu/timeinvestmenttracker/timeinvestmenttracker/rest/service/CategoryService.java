@@ -1,15 +1,11 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.service;
 
 import com.google.common.collect.Lists;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.entity.Activity;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.entity.Category;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.entity.Result;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.database.repository.CategoryRepository;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.error.ServerException;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.ActivityPostDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryListDto;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.PostingListDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.mapper.ModelMapper;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.ErrorCode;
 import java.util.List;
@@ -35,6 +31,8 @@ public class CategoryService {
   }
 
   public CategoryListDto list() throws ServerException {
+
+    categoryRepository.findByCategoryName("test").orElseThrow(() -> new ServerException(ErrorCode.FAIL_CREATING_CATEGORY_BY_NAME_ALREADY_EXIST));
 
     CategoryListDto ret = new CategoryListDto();
 

@@ -48,7 +48,6 @@ public class CategoryController {
   @RequestMapping(value = "/category", method = RequestMethod.POST)
   @ResponseStatus(value = HttpStatus.OK)
   public CommonResult create(
-      HttpServletRequest request,
       @RequestBody CategoryDto dto)
       throws ServerException {
 
