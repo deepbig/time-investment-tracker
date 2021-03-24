@@ -5,7 +5,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from '../components/styles/Page';
-import Activity from '../components/activity/Activity';
+import PostingForm from '../components/posting/PostingForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +32,7 @@ const ActivityPage = () => {
       >
         {/* <Container maxWidth="lg"> */}
         <Container maxWidth={false}>
-          <Activity />
+          <PostingForm type="activity" />
         </Container>
       </Box>
     </Page>

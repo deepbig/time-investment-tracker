@@ -12,4 +12,8 @@ public interface PostingRepository extends JpaRepository<Posting, Long> {
 
   Optional<Activity> findByDateAddedBetween(Timestamp start, Timestamp end);
 
+  Boolean existsById(long id);
+
+  void deleteById(long id);
+
 }

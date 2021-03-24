@@ -5,7 +5,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from '../components/styles/Page';
-import Result from '../components/result/Result';
+import PostingForm from '../components/posting/PostingForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ResultPage = () => {
   const classes = useStyles();
-  
+
   return (
     <Page
       className={classes.root}
@@ -32,7 +32,7 @@ const ResultPage = () => {
       >
         {/* <Container maxWidth="lg"> */}
         <Container maxWidth={false}>
-          <Result />
+          <PostingForm type="result" />
         </Container>
       </Box>
     </Page>

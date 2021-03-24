@@ -25,9 +25,9 @@ const LoadingLogo = () => {
 
   return (
     start === true ?
-    <div class="fullScreen">
-      <div class="dimScreen">
-        <img src="/LoadingLogo.gif" alt="Logo" class="center" />
+    <div className="fullScreen">
+      <div className="dimScreen">
+        <img src="/LoadingLogo.gif" alt="Logo" className="center" />
       </div>
     </div>
       : null

@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 import TopBar from './TopBar';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,7 +16,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flex: '1 1 auto',
     overflow: 'hidden',
-    paddingTop: 52
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: 52
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: 0
+    },
   },
   contentContainer: {
     display: 'flex',
@@ -34,7 +40,8 @@ const DashboardLayout = () => {
 
   return (
     <div className={classes.root}>
-      <TopBar />
+      {/* <TopBar /> */}
+      <NavBar />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>

@@ -23,6 +23,7 @@ public enum ErrorCode {
   FAIL_AUTH_TOKEN_ALREADY_REFRESHED(false, -507, "Token already changed by another session."),
 
   FAIL_GETTING_POSTS_BY_TYPE_NOT_EXISTS(false, -601, "Posting type does not exist."),
+  FAIL_DELETING_POST_BY_ID_NOT_FOUND(false, -601, "Posting does not exist."),
   FAIL_CREATING_POST_BY_CATEGORY_NOT_EXISTS(false, -602, "The category of your post does not exist."),
 
   FAIL_CREATING_CATEGORY_BY_NAME_ALREADY_EXIST(false, -701, "The category name already exist."),

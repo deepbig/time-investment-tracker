@@ -32,8 +32,6 @@ public class CategoryService {
 
   public CategoryListDto list() throws ServerException {
 
-    categoryRepository.findByCategoryName("test").orElseThrow(() -> new ServerException(ErrorCode.FAIL_CREATING_CATEGORY_BY_NAME_ALREADY_EXIST));
-
     CategoryListDto ret = new CategoryListDto();
 
     List<Category> categories = categoryRepository.findAll();
