@@ -1,5 +1,5 @@
 import { changeField } from '../../modules/nodes';
-import axios from "./client"
+import axios from "./client";
 import Alert from '../alert';
 
 export const NodeList = (dispatch, type) => {

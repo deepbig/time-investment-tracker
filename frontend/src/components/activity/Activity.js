@@ -33,7 +33,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * Most recent activity
+ * Most recent activity:
+ * Category name (clip), username, date added
+ * Contents
+ * activity count, duration
+ * 
+ * 1 card devides by devider.
+ * Show more button to get more post.
  */
 const Activity = ({ className, ...rest }) => {
   const classes = useStyles();

@@ -39,6 +39,7 @@ public class CategoryService {
     if (categories.size() > 0) {
       List<CategoryDto> dtos = Lists.newArrayList();
       categories.forEach(cat -> dtos.add(new CategoryDto().copyFrom(cat)));
+      ret.setTotal(categories.size());
       ret.setList(dtos);
     }
 

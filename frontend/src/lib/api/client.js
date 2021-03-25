@@ -16,7 +16,10 @@ client.interceptors.response.use(response => {
   else if (error.response.status === 401) {
     Alert(2, "Your session has expired. Would you like to be redirected to the login page?", null, "Yes", () => { window.location.href = '/login'; })
     document.getElementById("alert-button-0").focus();
-  } else if (error.response.status === 405) {
+  } else if (error.response.status === 404) {
+    Alert(2, "Search action was not successful. please reflesh this page to continue.", null, "Yes", () => { window.location.href = '/'; })
+    document.getElementById("alert-button-0").focus();
+  }else if (error.response.status === 405) {
     Alert(0, "You don't have enough permission to update database.", 'Okay', null, null);
     document.getElementById("alert-button-0").focus();
   }
