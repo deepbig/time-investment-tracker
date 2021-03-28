@@ -28,3 +28,23 @@ export const CategoryList = (dispatch) => {
     }
   })
 }
+
+export const CreateCategory = (dispatch, value, handleClose) => {
+  const data = {
+    category_name: value
+  }
+  axios.post('/category', data)
+  .then((res) => {
+    if (res.data === undefined) { // client return 400 level error
+      return ;
+    }
+    if (res.data.success !== true) {
+      Alert(0, res.data.msg, 'Okay', null, null);
+      
+    } else {
+      Alert(0, "New category is successfully completed!", 'Okay', null, null);
+      CategoryList(dispatch);
+        handleClose();
+    }
+  })
+}

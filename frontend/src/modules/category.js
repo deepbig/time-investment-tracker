@@ -31,11 +31,6 @@ export const initializeState = createAction(INITIALIZE_STATE);
 
 const initialState = {
   categoryList: {},
-
-  categoryAddForm: {
-    categoryName: "",
-  }
-
 };
 
 const category = handleActions(

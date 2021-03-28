@@ -67,7 +67,7 @@ public class CategoryService {
     categoryRepository.save(category);
 
     if (logger.isInfoEnabled()) {
-      logger.info("Success to add an activity posting[{}]", category);
+      logger.info("Success to add an category posting[{}]", category);
     }
 
   }

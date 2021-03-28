@@ -26,14 +26,11 @@ export const initializeState = createAction(INITIALIZE_STATE);
 
 const initialState = {
   resultList: {},
-
-  resultAddForm: {
-    category: {},
-    content: "",
-    testDuration: null,
-    testCount: null,
-  }
-
+  recentResultList: {},
+  bestResultDuration: {},
+  bestResultCount: {},
+  weeklyResultCountSummary: {},
+  weeklyResultHourSummary: {},
 }
 
 const result = handleActions(
@@ -42,7 +39,7 @@ const result = handleActions(
     produce(state, draft => {
       draft[form][key] = value;
     }),
-    [CHANGE_FIELD]: (state, { payload: { key, value } }) =>
+    [CHANGE_FIELD_WO_FORM]: (state, { payload: { key, value } }) =>
     produce(state, draft => {
       draft[key] = value;
     }),

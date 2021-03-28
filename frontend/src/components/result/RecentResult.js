@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   Box,
   Card,
   CardContent,
+  CardActions,
   Grid,
   Typography,
   colors,
   makeStyles,
   Chip,
-  Divider,
-  IconButton
+  Button,
 } from '@material-ui/core';
-import { ResultList, DeleteResult } from '../../lib/api/result';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Alert from '../../lib/alert';
+import { RecentResultList } from '../../lib/api/result';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,53 +35,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-/**
- * Most recent result:
- * Category name (clip), username, date added
- * Contents
- * result count, duration
- * 
- * 1 card devides by devider.
- * Show more button to get more post.
- */
-const Result = ({ className, ...rest }) => {
+const RecentResult = ({ className, ...rest }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { resultList } = useSelector(({ result }) => ({
-    resultList: result.resultList,
+    resultList: result.recentResultList,
   }));
 
   useEffect(() => {
-    ResultList(dispatch);
+    RecentResultList(dispatch);
   }, [dispatch]);
-
-  const handleDeleteAlert = (id) => {
-    Alert(1, `Are you sure to delete this posting?`, 'Cancel', "Yes", () => { handleDelete(id) });
-    document.getElementById("alert-button-1").focus();
-  }
-
-  const handleDelete = (id) => {
-    DeleteResult(dispatch, id);
-  }
-
-  // const _handleDeleteNode = (id) => {
-  //   axios.post(`/node/${id}/delete`)
-  //     .then(res => {
-  //       if (res === "loginRequired") {
-  //         dispatch(openForm(true));
-  //         return;
-  //       } else if (res.data === undefined) {
-  //         return;
-  //       } else if (res.data.success === true) {
-  //         NodeList(dispatch, filter);
-  //         Alert(0, `Node is successfully deleted`, 'Okay', null, null);
-  //         document.getElementById("alert-button-0").focus();
-  //       } else {
-  //         Alert(0, res.data.msg, 'Okay', null, null);
-  //         document.getElementById("alert-button-0").focus();
-  //       }
-  //     })
-  // }
 
   return (
     <Card
@@ -100,6 +61,15 @@ const Result = ({ className, ...rest }) => {
                 spacing={1}
               >
                 <Grid item xs={12}>
+                  <Typography
+                    color="textSecondary"
+                    gutterBottom
+                    variant="h4"
+                  >
+                    Most Recent Result
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
                   <Box
                     display="flex"
                     alignItems="center">
@@ -111,9 +81,6 @@ const Result = ({ className, ...rest }) => {
                     >
                       {list.dateAdded}
                     </Typography>
-                    <IconButton onClick={(e) => handleDeleteAlert(list.id)}>
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
                   </Box>
                 </Grid>
                 <Grid item>
@@ -133,27 +100,47 @@ const Result = ({ className, ...rest }) => {
                 </Grid>
               </Grid>
             </CardContent>
-            <Divider />
+            <CardActions>
+              <div style={{ width: '100%' }}>
+                <RouterLink to={`/app/result`}>
+                  <Box display="flex" flexDirection="row-reverse">
+                    <Button size="small" color="primary" variant="text">Show All</Button>
+                  </Box>
+                </RouterLink>
+              </div>
+
+            </CardActions>
           </React.Fragment>
         ))
         :
-        <CardContent>
-          <Typography
-            color="textSecondary"
-            variant="h4"
-            align="center"
-          >
-            There is no result to display. Please add one!
-          </Typography>
-        </CardContent>
+        <>
+          <CardContent>
+            <Typography
+              color="textSecondary"
+              variant="h4"
+              align="center"
+            >
+              There is no result to display. Please add one!
+        </Typography>
+          </CardContent>
+          <CardActions>
+            <div style={{ width: '100%' }}>
+              <RouterLink to={`/app/result`}>
+                <Box display="flex" flexDirection="row-reverse">
+                  <Button size="small" color="primary" variant="text">Create New</Button>
+                </Box>
+              </RouterLink>
+            </div>
+          </CardActions>
+        </>
       }
 
     </Card>
   );
 };
 
-Result.propTypes = {
+RecentResult.propTypes = {
   className: PropTypes.string
 };
 
-export default Result;
+export default RecentResult;

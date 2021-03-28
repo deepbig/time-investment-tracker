@@ -1,24 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
+  CardActions,
   Grid,
   Typography,
   colors,
   makeStyles,
   Chip,
-  Divider,
-  IconButton
+  Button,
 } from '@material-ui/core';
-import { ActivityList, DeleteActivity } from '../../lib/api/activity';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Alert from '../../lib/alert';
+import { RecentActivityList } from '../../lib/api/activity';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,34 +35,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-/**
- * Most recent activity:
- * Category name (clip), username, date added
- * Contents
- * activity count, duration
- * 
- * 1 card devides by devider.
- * Show more button to get more post.
- */
-const Activity = ({ className, ...rest }) => {
+const RecentActivity = ({ className, ...rest }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { activityList } = useSelector(({ activity }) => ({
-    activityList: activity.activityList,
+    activityList: activity.recentActivityList,
   }));
 
   useEffect(() => {
-    ActivityList(dispatch);
+    RecentActivityList(dispatch);
   }, [dispatch]);
-
-  const handleDeleteAlert = (id) => {
-    Alert(1, `Are you sure to delete this node?`, 'Cancel', "Yes", () => { handleDelete(id) });
-    document.getElementById("alert-button-1").focus();
-  }
-
-  const handleDelete = (id) => {
-    DeleteActivity(dispatch, id);
-  }
 
   return (
     <Card
@@ -82,6 +61,15 @@ const Activity = ({ className, ...rest }) => {
                 spacing={1}
               >
                 <Grid item xs={12}>
+                  <Typography
+                    color="textSecondary"
+                    gutterBottom
+                    variant="h4"
+                  >
+                    Most Recent Activity
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
                   <Box
                     display="flex"
                     alignItems="center">
@@ -93,9 +81,6 @@ const Activity = ({ className, ...rest }) => {
                     >
                       {list.dateAdded}
                     </Typography>
-                    <IconButton onClick={(e) => handleDeleteAlert(list.id)}>
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
                   </Box>
                 </Grid>
                 <Grid item>
@@ -115,27 +100,47 @@ const Activity = ({ className, ...rest }) => {
                 </Grid>
               </Grid>
             </CardContent>
-            <Divider />
+            <CardActions>
+              <div style={{ width: '100%' }}>
+                <RouterLink to={`/app/activity`}>
+                  <Box display="flex" flexDirection="row-reverse">
+                    <Button size="small" color="primary" variant="text">Show All</Button>
+                  </Box>
+                </RouterLink>
+              </div>
+
+            </CardActions>
           </React.Fragment>
         ))
         :
-        <CardContent>
-          <Typography
-            color="textSecondary"
-            variant="h4"
-            align="center"
-          >
-            There is no activity to display. Please add one!
+        <>
+          <CardContent>
+            <Typography
+              color="textSecondary"
+              variant="h4"
+              align="center"
+            >
+              There is no activity to display. Please add one!
         </Typography>
-        </CardContent>
+          </CardContent>
+          <CardActions>
+            <div style={{ width: '100%' }}>
+              <RouterLink to={`/app/activity`}>
+                <Box display="flex" flexDirection="row-reverse">
+                  <Button size="small" color="primary" variant="text">Create New</Button>
+                </Box>
+              </RouterLink>
+            </div>
+          </CardActions>
+        </>
       }
 
     </Card>
   );
 };
 
-Activity.propTypes = {
+RecentActivity.propTypes = {
   className: PropTypes.string
 };
 
-export default Activity;
+export default RecentActivity;

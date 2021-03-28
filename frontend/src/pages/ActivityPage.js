@@ -30,8 +30,8 @@ const ActivityPage = () => {
         height="100%"
         justifyContent="center"
       >
-        {/* <Container maxWidth="lg"> */}
-        <Container maxWidth={false}>
+        <Container maxWidth="md">
+        {/* <Container maxWidth={false}> */}
           <PostingForm type="activity" />
         </Container>
       </Box>

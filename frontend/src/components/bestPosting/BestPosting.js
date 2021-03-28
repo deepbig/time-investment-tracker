@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -9,10 +10,11 @@ import {
   Grid,
   Typography,
   colors,
-  makeStyles
+  makeStyles,
+  Chip,
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import MoneyIcon from '@material-ui/icons/Money';
+import { BestActivityList } from '../../lib/api/activity';
+import { BestResultList } from '../../lib/api/result';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +36,29 @@ const useStyles = makeStyles((theme) => ({
 
 const BestPosting = ({ className, type, count, ...rest }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { bestActivityDuration, bestActivityCount, bestResultDuration, bestResultCount } = useSelector(({ activity, result }) => ({
+    bestActivityDuration: activity.bestActivityDuration,
+    bestActivityCount: activity.bestActivityCount,
+    bestResultDuration: result.bestResultDuration,
+    bestResultCount: result.bestResultDuration,
+  }))
+
+  useEffect(() => {
+    if (type === "Activity") {
+      if (count === "Hours") {
+        BestActivityList(dispatch, "hour");
+      } else {
+        BestActivityList(dispatch, "count");
+      }
+    } else if (type === "Result") {
+      if (count === "Hours") {
+        BestResultList(dispatch, "hour");
+      } else {
+        BestResultList(dispatch, "count");
+      }
+    }
+  }, [dispatch])
 
   return (
     <Card
@@ -44,48 +69,236 @@ const BestPosting = ({ className, type, count, ...rest }) => {
         <Grid
           container
           justify="space-between"
-          spacing={3}
+          spacing={1}
         >
-          <Grid item>
-            <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-            >
-              Best {type} {count}
-            </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h3"
-            >
-              $24,000
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Avatar className={classes.avatar}>
-              <MoneyIcon />
-            </Avatar>
-          </Grid>
+          {type === "Activity" ?
+            count === "Hours" ?
+              bestActivityDuration.list !== undefined && bestActivityDuration.list !== null ?
+                bestActivityDuration.list.map((list, index) => (
+                  <>
+                    <Grid item xs={12}>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                      >
+                        Best {type} {count}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        display="flex"
+                        alignItems="center">
+                        <Chip label={list.categoryName} color="primary" />
+                        <Typography
+                          color="textSecondary"
+                          variant="h6"
+                          style={{ margin: 5 }}
+                          noWrap
+                        >
+                          {list.dateAdded}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                        noWrap
+                      >
+                        {list.content}
+                      </Typography>
+                      <Typography
+                        color="textPrimary"
+                        variant="h3"
+                      >
+                        {list.practiceDuration} mins
+                      </Typography>
+                    </Grid>
+                  </>
+                ))
+                : // empty state
+                <Grid item>
+                  <Typography
+                    color="textSecondary"
+                    variant="h4"
+                    align="center"
+                  >
+                    There is no activity to display. Please add one!
+                  </Typography>
+                </Grid>
+              : // count state
+              bestActivityCount.list !== undefined && bestActivityCount.list !== null ?
+                bestActivityCount.list.map((list, index) => (
+                  <>
+                    <Grid item xs={12}>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                      >
+                        Best {type} {count}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        display="flex"
+                        alignItems="center">
+                        <Chip label={list.categoryName} color="primary" />
+                        <Typography
+                          color="textSecondary"
+                          variant="h6"
+                          style={{ margin: 5 }}
+                          noWrap
+                        >
+                          {list.dateAdded}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                        noWrap
+                      >
+                        {list.content}
+                      </Typography>
+                      <Typography
+                        color="textPrimary"
+                        variant="h3"
+                      >
+                        {list.activityCount} practice(s)
+                      </Typography>
+                    </Grid>
+                  </>
+                ))
+                : // empty state (activity count)
+                <Grid item>
+                  <Typography
+                    color="textSecondary"
+                    variant="h4"
+                    align="center"
+                  >
+                    There is no activity to display. Please add one!
+                </Typography>
+                </Grid>
+            :  // result
+            count === "Hours" ?
+              bestResultDuration.list !== undefined && bestResultDuration.list !== null ?
+                bestResultDuration.list.map((list, index) => (
+                  <>
+                    <Grid item xs={12}>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                      >
+                        Best {type} {count}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        display="flex"
+                        alignItems="center">
+                        <Chip label={list.categoryName} color="primary" />
+                        <Typography
+                          color="textSecondary"
+                          variant="h6"
+                          style={{ margin: 5 }}
+                          noWrap
+                        >
+                          {list.dateAdded}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                        noWrap
+                      >
+                        {list.content}
+                      </Typography>
+                      <Typography
+                        color="textPrimary"
+                        variant="h3"
+                      >
+                        {list.testDuration} mins
+                  </Typography>
+                    </Grid>
+                  </>
+                ))
+                : // empty state (result hour);
+                <Grid item>
+                  <Typography
+                    color="textSecondary"
+                    variant="h4"
+                    align="center"
+                  >
+                    There is no result to display. Please add one!
+                  </Typography>
+                </Grid>
+              : // count (result)
+              bestResultCount.list !== undefined && bestResultCount.list !== null ?
+                bestResultCount.list.map((list, index) => (
+                  <>
+                    <Grid item xs={12}>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                      >
+                        Best {type} {count}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box
+                        display="flex"
+                        alignItems="center">
+                        <Chip label={list.categoryName} color="primary" />
+                        <Typography
+                          color="textSecondary"
+                          variant="h6"
+                          style={{ margin: 5 }}
+                          noWrap
+                        >
+                          {list.dateAdded}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item>
+                      <Typography
+                        color="textSecondary"
+                        gutterBottom
+                        variant="h4"
+                        noWrap
+                      >
+                        {list.content}
+                      </Typography>
+                      <Typography
+                        color="textPrimary"
+                        variant="h3"
+                      >
+                        {list.testCount} practice(s)
+                  </Typography>
+                    </Grid>
+                  </>
+                ))
+                : // empty state (result hour);
+                <Grid item>
+                  <Typography
+                    color="textSecondary"
+                    variant="h4"
+                    align="center"
+                  >
+                    There is no result to display. Please add one!
+                  </Typography>
+                </Grid>
+          }
         </Grid>
-        <Box
-          mt={2}
-          display="flex"
-          alignItems="center"
-        >
-          <ArrowDownwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            12%
-          </Typography>
-          <Typography
-            color="textSecondary"
-            variant="caption"
-          >
-            Since last month
-          </Typography>
-        </Box>
       </CardContent>
     </Card>
   );

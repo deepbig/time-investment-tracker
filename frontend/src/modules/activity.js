@@ -26,13 +26,11 @@ export const initializeState = createAction(INITIALIZE_STATE);
 
 const initialState = {
   activityList: {},
-
-  activityAddForm: {
-    category: {},
-    content: "",
-    practiceDuration: null,
-    activityCount: null,
-  }
+  recentActivityList: {},
+  bestActivityDuration: {},
+  bestActivityCount: {},
+  weeklyActivityCountSummary: {},
+  weeklyActivityHourSummary: {},
 
 }
 
@@ -42,7 +40,7 @@ const activity = handleActions(
     produce(state, draft => {
       draft[form][key] = value;
     }),
-    [CHANGE_FIELD]: (state, { payload: { key, value } }) =>
+    [CHANGE_FIELD_WO_FORM]: (state, { payload: { key, value } }) =>
     produce(state, draft => {
       draft[key] = value;
     }),

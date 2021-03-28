@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Bar } from 'react-chartjs-2';
@@ -11,33 +11,119 @@ import {
   Divider,
   useTheme,
   makeStyles,
-  colors
+  colors,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { useSelector, useDispatch } from 'react-redux';
+import { WeeklyActivityList } from '../../lib/api/activity';
+import { WeeklyResultList } from '../../lib/api/result';
+import { initializeForm as initializeActivityForm } from '../../modules/activity';
+import { initializeForm as initializeResultForm } from '../../modules/result';
 
-const useStyles = makeStyles(() => ({
-  root: {}
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
-const WeeklyTrend = ({ className, ...rest }) => {
+const WeeklyTrend = ({ type, count, className, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const [categorySelected, setCategorySelected] = useState('');
+
+  useEffect(() => {
+    
+    if (categorySelected !== undefined && categorySelected !== null && categorySelected !== "") {
+      if (type === "Activity") {
+        if (count === "Hours") {
+          WeeklyActivityList(dispatch, "hour", categorySelected);
+        } else if (count === "Counts") {
+          WeeklyActivityList(dispatch, "count", categorySelected);
+        }
+      } else if (type === "Result") {
+        if (count === "Hours") {
+          WeeklyResultList(dispatch, "hour", categorySelected);
+        } else if (count === "Counts") {
+          WeeklyResultList(dispatch, "count", categorySelected);
+        }
+      }
+    } 
+    // else {
+    //   if (type === "Activity") {
+    //     if (count === "Hours") {
+    //       dispatch(initializeActivityForm('weeklyActivityCountSummary'));
+    //     } else if (count === "Counts") {
+    //       dispatch(initializeActivityForm('weeklyActivityHourSummary'));
+    //     }
+    //   } else if (type === "Result") {
+    //     if (count === "Hours") {
+    //       dispatch(initializeResultForm('weeklyResultCountSummary'));
+    //     } else if (count === "Counts") {
+    //       dispatch(initializeResultForm('weeklyResultHourSummary'));
+    //     }
+    //   }
+    // }
+
+  }, [dispatch, categorySelected])
+
+  const {
+    categoryList,
+    weeklyActivityCountSummary,
+    weeklyActivityHourSummary,
+    weeklyResultCountSummary,
+    weeklyResultHourSummary } = useSelector(({ category, activity, result }) => ({
+      categoryList: category.categoryList,
+      weeklyActivityCountSummary: activity.weeklyActivityCountSummary,
+      weeklyActivityHourSummary: activity.weeklyActivityHourSummary,
+      weeklyResultCountSummary: result.weeklyResultCountSummary,
+      weeklyResultHourSummary: result.weeklyResultHourSummary,
+    }))
 
   const data = {
     datasets: [
       {
         backgroundColor: colors.indigo[500],
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year'
+        data:
+          type === "Activity" && count === "Counts" ?
+            weeklyActivityCountSummary.total !== undefined && weeklyActivityCountSummary.total === 14 ?
+              weeklyActivityCountSummary.list[1] : [0, 0, 0, 0, 0, 0, 0]
+            : type === "Activity" && count === "Hours" ?
+              weeklyActivityHourSummary.total !== undefined && weeklyActivityHourSummary.total === 14 ?
+                weeklyActivityHourSummary.list[1] : [0, 0, 0, 0, 0, 0, 0]
+              : type === "Result" && count === "Counts" ?
+                weeklyResultCountSummary.total !== undefined && weeklyResultCountSummary.total === 14 ?
+                  weeklyResultCountSummary.list[1] : [0, 0, 0, 0, 0, 0, 0]
+                : type === "Result" && count === "Hours" ?
+                  weeklyResultHourSummary.total !== undefined && weeklyResultHourSummary.total === 14 ?
+                    weeklyResultHourSummary.list[1] : [0, 0, 0, 0, 0, 0, 0]
+                  : [0, 0, 0, 0, 0, 0, 0],
+        label: 'This week'
       },
       {
         backgroundColor: colors.grey[200],
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year'
+        data:
+          type === "Activity" && count === "Counts" ?
+            weeklyActivityCountSummary.total !== undefined && weeklyActivityCountSummary.total === 14 ?
+              weeklyActivityCountSummary.list[0] : [0, 0, 0, 0, 0, 0, 0]
+            : type === "Activity" && count === "Hour" ?
+              weeklyActivityHourSummary.total !== undefined && weeklyActivityHourSummary.total === 14 ?
+                weeklyActivityHourSummary.list[0] : [0, 0, 0, 0, 0, 0, 0]
+              : type === "Result" && count === "Counts" ?
+                weeklyResultCountSummary.total !== undefined && weeklyResultCountSummary.total === 14 ?
+                  weeklyResultCountSummary.list[0] : [0, 0, 0, 0, 0, 0, 0]
+                : type === "Result" && count === "Hour" ?
+                  weeklyResultHourSummary.total !== undefined && weeklyResultHourSummary.total === 14 ?
+                    weeklyResultHourSummary.list[0] : [0, 0, 0, 0, 0, 0, 0]
+                  : [0, 0, 0, 0, 0, 0, 0],
+        label: 'Last week'
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
+    labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']
   };
 
   const options = {
@@ -95,6 +181,10 @@ const WeeklyTrend = ({ className, ...rest }) => {
     }
   };
 
+  const handleChangeCategory = (event) => {
+    setCategorySelected(event.target.value);
+  };
+
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -102,15 +192,30 @@ const WeeklyTrend = ({ className, ...rest }) => {
     >
       <CardHeader
         action={(
-          <Button
-            endIcon={<ArrowDropDownIcon />}
-            size="small"
-            variant="text"
-          >
-            Last 7 days
-          </Button>
+          // <Button
+          //   endIcon={<ArrowDropDownIcon />}
+          //   size="small"
+          //   variant="text"
+          // >
+          //   Last 7 days
+          // </Button>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="category-select-label">Category</InputLabel>
+            <Select
+              labelId="category-select-label"
+              id="category-select"
+              value={categorySelected}
+              onChange={handleChangeCategory}
+            >
+              {categoryList.list !== undefined ?
+                categoryList.list.map((list) => (
+                  <MenuItem value={list.category_name}>{list.category_name}</MenuItem>
+                ))
+                : <MenuItem value={""}>No Option</MenuItem>}
+            </Select>
+          </FormControl>
         )}
-        title="Latest WeeklyTrend"
+        title={`Latest Weekly ${type} Trend (${count})`}
       />
       <Divider />
       <CardContent>
@@ -124,7 +229,7 @@ const WeeklyTrend = ({ className, ...rest }) => {
           />
         </Box>
       </CardContent>
-      <Divider />
+      {/* <Divider />
       <Box
         display="flex"
         justifyContent="flex-end"
@@ -138,7 +243,7 @@ const WeeklyTrend = ({ className, ...rest }) => {
         >
           Overview
         </Button>
-      </Box>
+      </Box> */}
     </Card>
   );
 };

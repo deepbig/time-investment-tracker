@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   Grid,
   makeStyles,
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import Activity from '../activity/Activity';
-import Result from '../result/Result';
+import RecentActivity from '../activity/RecentActivity';
+import RecentResult from '../result/RecentResult';
 import BestPosting from '../bestPosting/BestPosting';
 import WeeklyTrend from '../weeklyTrend/WeeklyTrend';
-import ResultTrend from '../resultTrend/ResultTrend';
+import { useDispatch } from 'react-redux';
+import { CategoryList } from '../../lib/api/category';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,14 +19,19 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardForm = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    CategoryList(dispatch);
+  }, [dispatch]);
 
   return (
     <Grid container spacing={3}>
       <Grid item xl={6} lg={6} sm={6} xs={12}>
-        <Activity />
+        <RecentActivity />
       </Grid>
       <Grid item xl={6} lg={6} sm={6} xs={12}>
-        <Result />
+        <RecentResult />
       </Grid>
       <Grid item xl={3} lg={3} sm={3} xs={12}>
         <BestPosting type="Activity" count="Hours" />
@@ -41,12 +46,17 @@ const DashboardForm = () => {
         <BestPosting type="Result" count="Counts" />
       </Grid>
       {/* <Grid item xl={9} lg={8} md={12} xs={12}> */}
-      <Grid item xs={12}>
-        <WeeklyTrend />
+      <Grid item md={6} sm={12}>
+        <WeeklyTrend type="Activity" count="Counts" />
       </Grid>
-      {/* <Grid item xl={3} lg={4} md={6} xs={12}> */}
-      <Grid item xs={12}>
-        <ResultTrend />
+      <Grid item md={6} sm={12}>
+        <WeeklyTrend type="Activity" count="Hours" />
+      </Grid>
+      <Grid item md={6} sm={12}>
+        <WeeklyTrend type="Result" count="Counts" />
+      </Grid>
+      <Grid item md={6} sm={12}>
+        <WeeklyTrend type="Result" count="Hours" />
       </Grid>
     </Grid>
   );
