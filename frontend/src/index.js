@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import { check } from './modules/auth';
 import App from './App';
 
-const DEV_MODE = true;
+const DEV_MODE = false;
 const sagaMiddleware = createSagaMiddleware();
 
 const DevTool = DEV_MODE ? composeWithDevTools(applyMiddleware(sagaMiddleware)) : applyMiddleware(sagaMiddleware)
