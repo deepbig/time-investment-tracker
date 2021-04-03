@@ -11,7 +11,6 @@ import {
   DialogTitle,
   Typography
 } from '@material-ui/core';
-import { changeField } from '../../modules/addForm';
 import { CreateCategory } from '../../lib/api/category';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 

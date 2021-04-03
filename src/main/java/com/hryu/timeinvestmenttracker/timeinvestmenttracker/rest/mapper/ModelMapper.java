@@ -7,7 +7,6 @@ import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.ActivityPos
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.ResultPostDto;
 import lombok.NonNull;
-import org.modelmapper.Converter;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

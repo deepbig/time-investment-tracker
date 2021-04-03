@@ -1,16 +1,12 @@
 package com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.controller;
 
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.error.ServerException;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.ActivityPostDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.CategoryListDto;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.dto.PostingListDto;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.CommonResult;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.ErrorCode;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.response.SingleResult;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.service.CategoryService;
 import com.hryu.timeinvestmenttracker.timeinvestmenttracker.rest.service.ResponseService;
-import com.hryu.timeinvestmenttracker.timeinvestmenttracker.type.PostingType;
 import io.swagger.annotations.Api;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
