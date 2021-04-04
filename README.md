@@ -8,4 +8,7 @@ time-investment-tracker
 
 ## For your Convenience,
 For you who don't have maven and don't want to install maven, I added time-investment-tracker-1.0.jar in the root directory.
-So you can simply type the following command to test this app: java -jar target/time-investment-tracker-1.0.jar
+So you can simply type the following command to test this app: 
+```
+java -jar time-investment-tracker-1.0.jar
+```
