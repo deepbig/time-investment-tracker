@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -58,7 +57,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
         BestResultList(dispatch, "count");
       }
     }
-  }, [dispatch])
+  }, [dispatch, type, count])
 
   return (
     <Card
@@ -75,7 +74,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
             count === "Hours" ?
               bestActivityDuration.list !== undefined && bestActivityDuration.list !== null ?
                 bestActivityDuration.list.map((list, index) => (
-                  <>
+                  <React.Fragment key={list.id}>
                     <Grid item xs={12}>
                       <Typography
                         color="textSecondary"
@@ -96,7 +95,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                           style={{ margin: 5 }}
                           noWrap
                         >
-                          {list.dateAdded}
+                          {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                         </Typography>
                       </Box>
                     </Grid>
@@ -116,7 +115,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                         {list.practiceDuration} mins
                       </Typography>
                     </Grid>
-                  </>
+                  </React.Fragment>
                 ))
                 : // empty state
                 <Grid item>
@@ -131,7 +130,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
               : // count state
               bestActivityCount.list !== undefined && bestActivityCount.list !== null ?
                 bestActivityCount.list.map((list, index) => (
-                  <>
+                  <React.Fragment key={list.id}>
                     <Grid item xs={12}>
                       <Typography
                         color="textSecondary"
@@ -152,7 +151,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                           style={{ margin: 5 }}
                           noWrap
                         >
-                          {list.dateAdded}
+                          {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                         </Typography>
                       </Box>
                     </Grid>
@@ -172,7 +171,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                         {list.activityCount} practice(s)
                       </Typography>
                     </Grid>
-                  </>
+                  </React.Fragment>
                 ))
                 : // empty state (activity count)
                 <Grid item>
@@ -188,7 +187,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
             count === "Hours" ?
               bestResultDuration.list !== undefined && bestResultDuration.list !== null ?
                 bestResultDuration.list.map((list, index) => (
-                  <>
+                  <React.Fragment key={list.id}>
                     <Grid item xs={12}>
                       <Typography
                         color="textSecondary"
@@ -209,7 +208,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                           style={{ margin: 5 }}
                           noWrap
                         >
-                          {list.dateAdded}
+                          {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                         </Typography>
                       </Box>
                     </Grid>
@@ -229,7 +228,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                         {list.testDuration} mins
                   </Typography>
                     </Grid>
-                  </>
+                  </React.Fragment>
                 ))
                 : // empty state (result hour);
                 <Grid item>
@@ -244,7 +243,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
               : // count (result)
               bestResultCount.list !== undefined && bestResultCount.list !== null ?
                 bestResultCount.list.map((list, index) => (
-                  <>
+                  <React.Fragment key={list.id}>
                     <Grid item xs={12}>
                       <Typography
                         color="textSecondary"
@@ -265,7 +264,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                           style={{ margin: 5 }}
                           noWrap
                         >
-                          {list.dateAdded}
+                          {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                         </Typography>
                       </Box>
                     </Grid>
@@ -285,7 +284,7 @@ const BestPosting = ({ className, type, count, ...rest }) => {
                         {list.testCount} practice(s)
                   </Typography>
                     </Grid>
-                  </>
+                  </React.Fragment>
                 ))
                 : // empty state (result hour);
                 <Grid item>

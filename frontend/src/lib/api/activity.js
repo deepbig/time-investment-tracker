@@ -1,4 +1,4 @@
-import { changeField, changeFieldWoForm } from '../../modules/activity';
+import { changeFieldWoForm } from '../../modules/activity';
 import axios from './client';
 import Alert from '../alert';
 

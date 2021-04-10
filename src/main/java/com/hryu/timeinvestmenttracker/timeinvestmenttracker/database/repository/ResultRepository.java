@@ -25,9 +25,9 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
       + "GROUP BY DAY_OF_WEEK(p.DATE_ADDED)", nativeQuery = true)
   List<PostingSummary> sumCountByCategoryNameAndWeekdayOfDateAddedBetween(String categoryName, Timestamp start, Timestamp end);
 
-  @Query(value = "SELECT DAY_OF_WEEK(p.DATE_ADDED) as DateAdded, SUM(a.TEST_DURATION) as Counts "
+  @Query(value = "SELECT DAY_OF_WEEK(p.DATE_ADDED) as DateAdded, SUM(r.TEST_DURATION) as Counts "
       + "FROM POSTINGS p "
-      + "INNER JOIN ACTIVITIES a on p.ID=a.ID "
+      + "INNER JOIN RESULTS r on p.ID=r.ID "
       + "WHERE p.CATEGORY_NAME=?1 "
       + "AND p.DATE_ADDED BETWEEN ?2 AND ?3 "
       + "GROUP BY DAY_OF_WEEK(p.DATE_ADDED)", nativeQuery = true)

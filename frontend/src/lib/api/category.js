@@ -1,4 +1,4 @@
-import { changeField, changeFieldWoForm } from '../../modules/category';
+import { changeFieldWoForm } from '../../modules/category';
 import axios from './client';
 import Alert from '../alert';
 

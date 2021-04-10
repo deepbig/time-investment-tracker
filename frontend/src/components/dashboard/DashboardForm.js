@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import {
   Grid,
-  makeStyles,
 } from '@material-ui/core';
 import RecentActivity from '../activity/RecentActivity';
 import RecentResult from '../result/RecentResult';
@@ -10,17 +9,11 @@ import WeeklyTrend from '../weeklyTrend/WeeklyTrend';
 import { useDispatch } from 'react-redux';
 import { CategoryList } from '../../lib/api/category';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-  },
-}));
-
 const DashboardForm = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     CategoryList(dispatch);
   }, [dispatch]);
 
@@ -44,7 +37,6 @@ const DashboardForm = () => {
       <Grid item xl={3} lg={3} sm={3} xs={12}>
         <BestPosting type="Result" count="Counts" />
       </Grid>
-      {/* <Grid item xl={9} lg={8} md={12} xs={12}> */}
       <Grid item md={6} sm={12}>
         <WeeklyTrend type="Activity" count="Counts" />
       </Grid>

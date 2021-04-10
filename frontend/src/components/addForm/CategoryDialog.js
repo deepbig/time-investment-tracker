@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Button,
@@ -32,7 +32,7 @@ const CategoryDialog = () => {
     document.activeElement.blur();
   }
   const handleChange = (event) => {
-    if (error == true && event.target.value !== '') {
+    if (error === true && event.target.value !== '') {
       setError(false);
     }
     setValue(event.target.value);

@@ -53,7 +53,7 @@ const RecentResult = ({ className, ...rest }) => {
     >
       {resultList.list !== undefined && resultList.list !== null ?
         resultList.list.map((list, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={list.id}>
             <CardContent>
               <Grid
                 container
@@ -79,7 +79,7 @@ const RecentResult = ({ className, ...rest }) => {
                       variant="h6"
                       style={{ margin: 5 }}
                     >
-                      {list.dateAdded}
+                      {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                     </Typography>
                   </Box>
                 </Grid>

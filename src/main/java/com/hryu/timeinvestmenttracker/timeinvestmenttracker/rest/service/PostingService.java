@@ -20,7 +20,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,7 +225,8 @@ public class PostingService {
     }
   }
 
-  public WeeklySummaryListDto<ArrayList<Integer>> weeklyActivity(String categoryName, BestType bestType) throws ServerException {
+  public WeeklySummaryListDto<ArrayList<Integer>> weeklyActivity(String categoryName,
+      BestType bestType) throws ServerException {
     checkCategoryExist(categoryName);
 
     Timestamp[] tms = getCurrentFrom();
@@ -244,22 +244,24 @@ public class PostingService {
 
     int count = 1; // Sunday is 1
     if (lastWeekActivities.size() == 0) {
-      while(count < 8) {
+      while (count < 8) {
         lastCounts.add(0);
         count++;
       }
     } else {
       for (PostingSummary act : lastWeekActivities) {
-        if (count == act.getDateAdded()) {
-          lastCounts.add(act.getCounts());
-          count++;
-        } else if (count != act.getDateAdded()){ // more than 1
+        if (count != act.getDateAdded()) { // more than 1
           while (count != act.getDateAdded() && count < 8) {
             lastCounts.add(0);
             count++;
           }
         }
+        if (count == act.getDateAdded()) {
+          lastCounts.add(act.getCounts());
+          count++;
+        }
       }
+
       if (count < 8) { // last is not 7
         while (count < 8) {
           lastCounts.add(0);
@@ -280,22 +282,24 @@ public class PostingService {
     ArrayList<Integer> currentCounts = new ArrayList<>();
     count = 1; // sunday is 1
     if (currentWeekActivities.size() == 0) {
-      while(count < 8) {
+      while (count < 8) {
         currentCounts.add(0);
         count++;
       }
     } else {
       for (PostingSummary act : currentWeekActivities) {
-        if (count == act.getDateAdded()) {
-          currentCounts.add(act.getCounts());
-          count++;
-        } else if (count != act.getDateAdded()){ // more than 1
+        if (count != act.getDateAdded()) { // more than 1
           while (count != act.getDateAdded() && count < 8) {
             currentCounts.add(0);
             count++;
           }
         }
+        if (count == act.getDateAdded()) {
+          currentCounts.add(act.getCounts());
+          count++;
+        }
       }
+
       if (count < 8) { // last is not 7
         while (count < 8) {
           currentCounts.add(0);
@@ -315,40 +319,43 @@ public class PostingService {
     return wsl;
   }
 
-  public WeeklySummaryListDto weeklyResult(String categoryName, BestType bestType) throws ServerException {
+  public WeeklySummaryListDto weeklyResult(String categoryName, BestType bestType) throws
+      ServerException {
     checkCategoryExist(categoryName);
 
     Timestamp[] tms = getCurrentFrom();
 
-    List<PostingSummary> lastWeekActivities = null;
+    List<PostingSummary> lastWeekResults = null;
     if (bestType == BestType.count) {
-      lastWeekActivities = resultRepository
+      lastWeekResults = resultRepository
           .sumCountByCategoryNameAndWeekdayOfDateAddedBetween(categoryName, tms[0], tms[1]);
     } else if (bestType == BestType.hour) {
-      lastWeekActivities = resultRepository
+      lastWeekResults = resultRepository
           .sumDurationByCategoryNameAndWeekdayOfDateAddedBetween(categoryName, tms[0], tms[1]);
     }
 
     ArrayList<Integer> lastCounts = new ArrayList<>();
 
     int count = 1; // Sunday is 1
-    if (lastWeekActivities.size() == 0) {
-      while(count < 8) {
+    if (lastWeekResults.size() == 0) {
+      while (count < 8) {
         lastCounts.add(0);
         count++;
       }
     } else {
-      for (PostingSummary act : lastWeekActivities) {
-        if (count == act.getDateAdded()) {
-          lastCounts.add(act.getCounts());
-          count++;
-        } else if (count != act.getDateAdded()){ // more than 1
+      for (PostingSummary act : lastWeekResults) {
+        if (count != act.getDateAdded()) { // more than 1
           while (count != act.getDateAdded() && count < 8) {
             lastCounts.add(0);
             count++;
           }
         }
+        if (count == act.getDateAdded()) {
+          lastCounts.add(act.getCounts());
+          count++;
+        }
       }
+
       if (count < 8) { // last is not 7
         while (count < 8) {
           lastCounts.add(0);
@@ -357,34 +364,36 @@ public class PostingService {
       }
     }
 
-    List<PostingSummary> currentWeekActivities = null;
+    List<PostingSummary> currentWeekResults = null;
     if (bestType == BestType.count) {
-      currentWeekActivities = resultRepository
+      currentWeekResults = resultRepository
           .sumCountByCategoryNameAndWeekdayOfDateAddedBetween(categoryName, tms[2], tms[3]);
     } else if (bestType == BestType.hour) {
-      currentWeekActivities = resultRepository
+      currentWeekResults = resultRepository
           .sumDurationByCategoryNameAndWeekdayOfDateAddedBetween(categoryName, tms[2], tms[3]);
     }
 
     ArrayList<Integer> currentCounts = new ArrayList<>();
     count = 1; // sunday is 1
-    if (currentWeekActivities.size() == 0) {
-      while(count < 8) {
+    if (currentWeekResults.size() == 0) {
+      while (count < 8) {
         currentCounts.add(0);
         count++;
       }
     } else {
-      for (PostingSummary act : currentWeekActivities) {
-        if (count == act.getDateAdded()) {
-          currentCounts.add(act.getCounts());
-          count++;
-        } else if (count != act.getDateAdded()){ // more than 1
+      for (PostingSummary act : currentWeekResults) {
+        if (count != act.getDateAdded()) { // more than 1
           while (count != act.getDateAdded() && count < 8) {
             currentCounts.add(0);
             count++;
           }
         }
+        if (count == act.getDateAdded()) {
+          currentCounts.add(act.getCounts());
+          count++;
+        }
       }
+
       if (count < 8) { // last is not 7
         while (count < 8) {
           currentCounts.add(0);
@@ -398,7 +407,7 @@ public class PostingService {
     lst.add(currentCounts);
     WeeklySummaryListDto<ArrayList<Integer>> wsl = new WeeklySummaryListDto<>();
     wsl.setList(lst);
-    wsl.setType(PostingType.activity);
+    wsl.setType(PostingType.result);
     wsl.setTotal(lastCounts.size() + currentCounts.size());
 
     return wsl;

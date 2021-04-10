@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Backdrop,
-  makeStyles
-} from '@material-ui/core';
 import './LoadingLogo.css';
 
-
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1000
-  },
-}));
-
 const LoadingLogo = () => {
-  const classes = useStyles();
   const [start, setStart] = useState(true);
 
   useEffect(() => {

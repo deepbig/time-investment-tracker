@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -16,7 +15,6 @@ import {
   IconButton
 } from '@material-ui/core';
 import { ActivityList, DeleteActivity } from '../../lib/api/activity';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Alert from '../../lib/alert';
 
@@ -66,7 +64,7 @@ const Activity = ({ className, ...rest }) => {
   const handleDelete = (id) => {
     DeleteActivity(dispatch, id);
   }
-
+  
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -91,7 +89,7 @@ const Activity = ({ className, ...rest }) => {
                       variant="h6"
                       style={{ margin: 5 }}
                     >
-                      {list.dateAdded}
+                      {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                     </Typography>
                     <IconButton onClick={(e) => handleDeleteAlert(list.id)}>
                       <DeleteIcon fontSize="small" />

@@ -15,7 +15,6 @@ import {
   IconButton
 } from '@material-ui/core';
 import { ResultList, DeleteResult } from '../../lib/api/result';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Alert from '../../lib/alert';
 
@@ -109,7 +108,7 @@ const Result = ({ className, ...rest }) => {
                       variant="h6"
                       style={{ margin: 5 }}
                     >
-                      {list.dateAdded}
+                      {list.dateAdded !== null ? (new Date(list.dateAdded)).toLocaleString() : null }
                     </Typography>
                     <IconButton onClick={(e) => handleDeleteAlert(list.id)}>
                       <DeleteIcon fontSize="small" />
